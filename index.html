@@ -3,10 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DASH Stream Player</title>
-    <!-- Dash.js script -->
-    <script src="https://cdn.dashjs.org/latest/dash.all.min.js"></script>
-    <!-- Custom styles -->
+    <title>Stream Player</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -18,26 +15,51 @@
             margin: 0;
             flex-direction: column;
         }
-        .player-container {
-            width: 80%;
-            max-width: 800px;
-            margin-bottom: 20px;
+        #my-video {
+            width: 100%;
+            max-width: 1000px;
+            border: 5px solid transparent;
+            border-radius: 10px;
+            animation: border-animation 5s infinite;
+            background-clip: border-box;
+        }
+        @keyframes border-animation {
+            0% { border-color: #ff6b6b; }
+            20% { border-color: #ff9f43; }
+            40% { border-color: #feca57; }
+            60% { border-color: #48dbfb; }
+            80% { border-color: #1dd1a1; }
+            100% { border-color: #f368e0; }
+        }
+        .logo {
+            position: absolute;
+            top: 350px;
+            left: 78px;
+            width: 200px; /* Adjust the width as needed */
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 </head>
 <body>
-    <div class="player-container">
-        <video id="videoPlayer" controls></video>
-    </div>
+    <video id="my-video" controls></video>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const videoElement = document.getElementById('videoPlayer');
-            const dashUrl = 'https://aba5sdmaaaaaaaamkycwliah6buj4.otte.live.cf.ww.aiv-cdn.net/pdx-nitro/live/clients/dash/enc/tgcrfjcgia/out/v1/7296f026409c4e9ba8844a238628f9ad/cenc.mpd';
-
-            const player = dashjs.MediaPlayer().create();
-            player.initialize(videoElement, dashUrl, true);
-        });
+        const videoPlayer = document.getElementById('my-video');
+        const videoSrc = "https://retosbd.com/toffe/toffe.php?id=match-1";
+        
+        if (Hls.isSupported()) {
+            const hls = new Hls();
+            hls.loadSource(videoSrc);
+            hls.attachMedia(videoPlayer);
+            hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                videoPlayer.play();
+            });
+        } else if (videoPlayer.canPlayType('application/vnd.apple.mpegurl')) {
+            videoPlayer.src = videoSrc;
+            videoPlayer.addEventListener('loadedmetadata', function() {
+                videoPlayer.play();
+            });
+        }
     </script>
 </body>
 </html>
