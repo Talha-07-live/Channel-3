@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DASH Player</title>
+    <!-- Include Shaka Player library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.2.2/shaka-player.compiled.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+        }
+        video {
+            width: 80%;
+            max-width: 800px;
+        }
+    </style>
+</head>
+<body>
+    <video id="videoPlayer" controls autoplay></video>
+
+    <script>
+        const manifestUri = 'https://aba5sdmaaaaaaaamkycwliah6buj4.otte.live.cf.ww.aiv-cdn.net/pdx-nitro/live/clients/dash/enc/tgcrfjcgia/out/v1/7296f026409c4e9ba8844a238628f9ad/cenc.mpd';
+
+        async function init() {
+            // Check if the browser supports the necessary APIs
+            if (!shaka.Player.isBrowserSupported()) {
+                console.error('Browser not supported');
+                return;
+            }
+
+            // Create a new Shaka Player instance
+            const videoElement = document.getElementById('videoPlayer');
+            const player = new shaka.Player(videoElement);
+
+            // Try to load the DASH manifest
+            try {
+                await player.load(manifestUri);
+                console.log('The video has been loaded successfully!');
+            } catch (error) {
+                console.error('Error loading the video:', error.message);
+            }
+        }
+
+        // Call the initialization function when the page is loaded
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
