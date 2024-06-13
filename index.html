@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NS Player Stream</title>
+    <title>HLS Stream with Video.js</title>
     <link href="https://vjs.zencdn.net/7.15.4/video-js.css" rel="stylesheet" />
+    <script src="https://vjs.zencdn.net/7.15.4/video.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/videojs-contrib-hls.js@latest/dist/videojs-contrib-hls.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -41,14 +43,13 @@
             height="264"
             data-setup="{}"
         >
-            <source src="https://edge01.iptv.digijadoo.net/live/nagorik_tv/playlist.m3u8?md5=KL0iIWs-P-6Zjf0U2vNVAw&expires=1718448323&user=d477246e9e724f81a011b847457e71c4" type="application/x-mpegURL">
+            <source src="https://st61.24cwc.com/hls/token/2aymysimhwybymvmobhikhgd8fy79k8/stream.m3u8" type="application/x-mpegURL">
         </video>
     </div>
     <footer>
         <span class="footer-text">Made By <a href="" style="color: inherit; text-decoration: none;">Talha</a></span>
     </footer>
 
-    <script src="https://vjs.zencdn.net/7.15.4/video.min.js"></script>
     <script>
         const player = videojs('my-video');
         player.play();
