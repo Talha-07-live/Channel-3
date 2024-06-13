@@ -3,10 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HLS Stream with Video.js</title>
-    <link href="https://vjs.zencdn.net/7.15.4/video-js.css" rel="stylesheet" />
-    <script src="https://vjs.zencdn.net/7.15.4/video.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/videojs-contrib-hls.js@latest/dist/videojs-contrib-hls.min.js"></script>
+    <title>HLS Stream with Plyr</title>
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.6.8/plyr.css" />
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -34,15 +32,7 @@
 <body>
     <div class="video-container">
         <img src="https://s12.gifyu.com/images/SYRXk.png" alt="Logo" class="logo">
-        <video
-            id="my-video"
-            class="video-js vjs-default-skin"
-            controls
-            preload="auto"
-            width="640"
-            height="264"
-            data-setup="{}"
-        >
+        <video id="player" controls>
             <source src="https://st61.24cwc.com/hls/token/2aymysimhwybymvmobhikhgd8fy79k8/stream.m3u8" type="application/x-mpegURL">
         </video>
     </div>
@@ -50,9 +40,27 @@
         <span class="footer-text">Made By <a href="" style="color: inherit; text-decoration: none;">Talha</a></span>
     </footer>
 
+    <script src="https://cdn.plyr.io/3.6.8/plyr.polyfilled.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <script>
-        const player = videojs('my-video');
-        player.play();
+        document.addEventListener('DOMContentLoaded', () => {
+            const video = document.getElementById('player');
+            if (Hls.isSupported()) {
+                const hls = new Hls();
+                hls.loadSource(video.querySelector('source').src);
+                hls.attachMedia(video);
+                hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                    video.play();
+                });
+            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                video.src = video.querySelector('source').src;
+                video.addEventListener('loadedmetadata', function() {
+                    video.play();
+                });
+            }
+
+            const player = new Plyr(video);
+        });
     </script>
 </body>
 </html>
