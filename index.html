@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HLS Stream with Hls.js</title>
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <title>HLS Stream with Video.js</title>
+    <link href="https://vjs.zencdn.net/7.16.4/video-js.css" rel="stylesheet">
+    <script src="https://vjs.zencdn.net/7.16.4/video.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/5.16.0/videojs-contrib-hls.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -14,12 +16,12 @@
             height: 100vh;
             background-color: #f0f0f0;
             margin: 0;
-            flex-direction: column;
         }
         .video-container {
-            position: relative;
-            width: 80%;
+            width: 100%;
             max-width: 800px;
+            overflow: hidden;
+            position: relative;
         }
         .logo {
             position: absolute;
@@ -32,7 +34,7 @@
 <body>
     <div class="video-container">
         <img src="https://s12.gifyu.com/images/SYRXk.png" alt="Logo" class="logo">
-        <video id="video" controls></video>
+        <video id="my-video" class="video-js vjs-default-skin" controls preload="auto" width="100%" height="auto"></video>
     </div>
     <footer>
         <span class="footer-text">Made By <a href="" style="color: inherit; text-decoration: none;">Talha</a></span>
@@ -40,24 +42,17 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const video = document.getElementById('video');
+            const player = videojs('my-video');
             const videoSrc = 'http://xtv.ooo:8080/live/Minsa786/Fatima/109987.m3u8';
 
-            if (Hls.isSupported()) {
-                const hls = new Hls();
-                hls.loadSource(videoSrc);
-                hls.attachMedia(video);
-                hls.on(Hls.Events.MANIFEST_PARSED, function() {
-                    video.play();
+            player.ready(function() {
+                this.src({
+                    src: videoSrc,
+                    type: 'application/x-mpegURL'
                 });
-            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                video.src = videoSrc;
-                video.addEventListener('loadedmetadata', function() {
-                    video.play();
-                });
-            } else {
-                alert('HLS.js is not supported on this browser. Please try a different browser.');
-            }
+                
+                this.play();
+            });
         });
     </script>
 </body>
