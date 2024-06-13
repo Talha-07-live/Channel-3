@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DASH Player</title>
-    <!-- Include Shaka Player library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.2.2/shaka-player.compiled.js"></script>
+    <title>DASH Stream Player</title>
+    <!-- Plyr.js CSS -->
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.6.7/plyr.css" />
+    <!-- Custom styles -->
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -15,41 +16,47 @@
             height: 100vh;
             background-color: #f0f0f0;
             margin: 0;
+            flex-direction: column;
         }
-        video {
+        .player-container {
             width: 80%;
             max-width: 800px;
+            margin-bottom: 20px;
         }
     </style>
 </head>
 <body>
-    <video id="videoPlayer" controls autoplay></video>
+    <div class="player-container">
+        <video id="player" controls crossorigin>
+            <!-- Plyr will add sources here -->
+        </video>
+    </div>
+
+    <!-- Plyr.js script -->
+    <script src="https://cdn.plyr.io/3.6.7/plyr.js"></script>
 
     <script>
-        const manifestUri = 'https://aba5sdmaaaaaaaamkycwliah6buj4.otte.live.cf.ww.aiv-cdn.net/pdx-nitro/live/clients/dash/enc/tgcrfjcgia/out/v1/7296f026409c4e9ba8844a238628f9ad/cenc.mpd';
+        document.addEventListener('DOMContentLoaded', () => {
+            const player = new Plyr('#player', {
+                debug: true, // Enable debug mode to see console logs
+                captions: { active: true, update: true, language: 'en' }, // Optional: enable captions
+                tooltips: { controls: true, seek: true } // Optional: enable tooltip display
+            });
 
-        async function init() {
-            // Check if the browser supports the necessary APIs
-            if (!shaka.Player.isBrowserSupported()) {
-                console.error('Browser not supported');
-                return;
-            }
+            // DASH manifest URL
+            const source = {
+                type: 'dash',
+                sources: [
+                    {
+                        src: 'https://aba5sdmaaaaaaaamkycwliah6buj4.otte.live.cf.ww.aiv-cdn.net/pdx-nitro/live/clients/dash/enc/tgcrfjcgia/out/v1/7296f026409c4e9ba8844a238628f9ad/cenc.mpd',
+                        type: 'application/dash+xml'
+                    }
+                ]
+            };
 
-            // Create a new Shaka Player instance
-            const videoElement = document.getElementById('videoPlayer');
-            const player = new shaka.Player(videoElement);
-
-            // Try to load the DASH manifest
-            try {
-                await player.load(manifestUri);
-                console.log('The video has been loaded successfully!');
-            } catch (error) {
-                console.error('Error loading the video:', error.message);
-            }
-        }
-
-        // Call the initialization function when the page is loaded
-        document.addEventListener('DOMContentLoaded', init);
+            // Load the DASH source into the Plyr player
+            player.source = source;
+        });
     </script>
 </body>
 </html>
