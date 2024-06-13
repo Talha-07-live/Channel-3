@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HLS Stream with Plyr and Hls.js</title>
-    <link rel="stylesheet" href="https://cdn.plyr.io/3.6.8/plyr.css" />
+    <title>HLS Stream with Hls.js</title>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -32,37 +32,32 @@
 <body>
     <div class="video-container">
         <img src="https://s12.gifyu.com/images/SYRXk.png" alt="Logo" class="logo">
-        <video id="player" controls>
-            <source src="http://51.159.98.123/live/Minsa786/Fatima/109987.m3u8?token=GhMNBEZcR1gRBAdaVlAAVVAOUQVTAQwEUQIBAFBZUwFUA1cDA1EABgREGBoXEhZRBVtrXgVGAgFSXw4MBBQUFhJUFzpcUEdYEVADDlRQXBZIFEBeDAEaClJKFURaXBRZQwNcUwADR04RA0xMARQKVQhpUFIXDVtVQFxZQV9UGkEOXzoBUFkEDFdEDhpVREgWDUVEFVsKTVwOShVWWkxEAhVUR18XBVFSBEQYGgcJEVoQRE0VW0Z6dEBKFVFLTFMNElgKCxcORw8AEwwaSEQNRztEUUQVFl1RDwNFFgkaBkFNEwgETWsGDV0IUVsQDwtaFxQOFVBGFBIPCVldR1dEPBFYAUcPFlxUAFMWRQ==" type="application/x-mpegURL">
-        </video>
+        <video id="video" controls></video>
     </div>
     <footer>
         <span class="footer-text">Made By <a href="" style="color: inherit; text-decoration: none;">Talha</a></span>
     </footer>
 
-    <script src="https://cdn.plyr.io/3.6.8/plyr.polyfilled.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const video = document.getElementById('player');
-            
-            // Check if HLS.js is supported
+        document.addEventListener('DOMContentLoaded', function() {
+            const video = document.getElementById('video');
+            const videoSrc = 'http://xtv.ooo:8080/live/Minsa786/Fatima/109987.m3u8';
+
             if (Hls.isSupported()) {
                 const hls = new Hls();
-                hls.loadSource(video.querySelector('source').src);
+                hls.loadSource(videoSrc);
                 hls.attachMedia(video);
                 hls.on(Hls.Events.MANIFEST_PARSED, function() {
                     video.play();
                 });
             } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                // Use native HLS support if available
-                video.src = video.querySelector('source').src;
+                video.src = videoSrc;
                 video.addEventListener('loadedmetadata', function() {
                     video.play();
                 });
+            } else {
+                alert('HLS.js is not supported on this browser. Please try a different browser.');
             }
-
-            const player = new Plyr(video);
         });
     </script>
 </body>
