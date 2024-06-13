@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HLS Stream with Plyr</title>
+    <title>HLS Stream with Plyr and Hls.js</title>
     <link rel="stylesheet" href="https://cdn.plyr.io/3.6.8/plyr.css" />
     <style>
         body {
@@ -45,6 +45,8 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const video = document.getElementById('player');
+            
+            // Check if HLS.js is supported
             if (Hls.isSupported()) {
                 const hls = new Hls();
                 hls.loadSource(video.querySelector('source').src);
@@ -53,6 +55,7 @@
                     video.play();
                 });
             } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                // Use native HLS support if available
                 video.src = video.querySelector('source').src;
                 video.addEventListener('loadedmetadata', function() {
                     video.play();
