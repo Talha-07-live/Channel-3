@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DASH Stream Player</title>
-    <!-- Plyr.js CSS -->
-    <link rel="stylesheet" href="https://cdn.plyr.io/3.6.7/plyr.css" />
+    <!-- Dash.js script -->
+    <script src="https://cdn.dashjs.org/latest/dash.all.min.js"></script>
     <!-- Custom styles -->
     <style>
         body {
@@ -27,35 +27,16 @@
 </head>
 <body>
     <div class="player-container">
-        <video id="player" controls crossorigin>
-            <!-- Plyr will add sources here -->
-        </video>
+        <video id="videoPlayer" controls></video>
     </div>
 
-    <!-- Plyr.js script -->
-    <script src="https://cdn.plyr.io/3.6.7/plyr.js"></script>
-
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const player = new Plyr('#player', {
-                debug: true, // Enable debug mode to see console logs
-                captions: { active: true, update: true, language: 'en' }, // Optional: enable captions
-                tooltips: { controls: true, seek: true } // Optional: enable tooltip display
-            });
+        document.addEventListener('DOMContentLoaded', function() {
+            const videoElement = document.getElementById('videoPlayer');
+            const dashUrl = 'https://aba5sdmaaaaaaaamkycwliah6buj4.otte.live.cf.ww.aiv-cdn.net/pdx-nitro/live/clients/dash/enc/tgcrfjcgia/out/v1/7296f026409c4e9ba8844a238628f9ad/cenc.mpd';
 
-            // DASH manifest URL
-            const source = {
-                type: 'dash',
-                sources: [
-                    {
-                        src: 'https://aba5sdmaaaaaaaamkycwliah6buj4.otte.live.cf.ww.aiv-cdn.net/pdx-nitro/live/clients/dash/enc/tgcrfjcgia/out/v1/7296f026409c4e9ba8844a238628f9ad/cenc.mpd',
-                        type: 'application/dash+xml'
-                    }
-                ]
-            };
-
-            // Load the DASH source into the Plyr player
-            player.source = source;
+            const player = dashjs.MediaPlayer().create();
+            player.initialize(videoElement, dashUrl, true);
         });
     </script>
 </body>
