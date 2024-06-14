@@ -1,10 +1,9 @@
-</html>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"> 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>M3U8 Stream</title>
+    <title>Talha's M3U8 Stream</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -24,11 +23,23 @@
         #my-video {
             width: 100%;
             max-width: 1000px;
-            display: none;
             border: 5px solid transparent;
             border-radius: 10px;
             animation: border-animation 5s infinite;
             background-clip: border-box;
+            display: none; /* Initially hide HLS video player */
+        }
+        #my-iframe {
+            position: absolute;
+            top: -200px;
+            left: -14px;
+            width: 105%;
+            max-width: 1000px;
+            border: 5px solid transparent;
+            border-radius: 10px;
+            animation: border-animation 5s infinite;
+            background-clip: border-box;
+            display: none; /* Initially hide iframe */
         }
         #password {
             padding: 10px;
@@ -50,8 +61,10 @@
         }
         .video-container {
             position: relative;
-            width: 80%;
+            width: 90%;
             max-width: 800px;
+            display: flex;
+            justify-content: center;
         }
         .quality-controls {
             position: absolute;
@@ -66,7 +79,8 @@
         .support-button {
             position: absolute;
             top: -250px;
-            left: 123px;
+            left: 50%;
+            transform: translateX(-50%);
             background-color: #28a745;
             color: white;
             border: none;
@@ -75,12 +89,14 @@
             cursor: pointer;
             border-radius: 5px;
             transition: background-color 0.3s ease;
+            }
+            
         }
         .support-button:hover {
             background-color: #28a745;
         }
         footer {
-            margin-top: 20px;
+            margin-top: 220px;
             font-size: 14px;
             color: #555;
             text-align: center;
@@ -129,12 +145,15 @@
         }
         .logo {
             position: absolute;
-            top: 350px;
-            left: 78px;
+            top: 310px;
+            left: 50%;
+            transform: translateX(-50%);
             width: 200px; /* Adjust the width as needed */
+
+            }
+            
         }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 </head>
 <body>
     <div id="login-form">
@@ -144,7 +163,8 @@
     </div>
     <div class="video-container">
         <img src="https://s12.gifyu.com/images/SYa8u.png" alt="Logo" class="logo">
-        <video id="my-video" controls width="640" height="264"></video>
+        <video id="my-video" controls width="640" height="264" src="https://dzkyvlfyge.erbvr.com/PeaceTvBangla/tracks-v3a1/mono.m3u8"></video>
+        <iframe id="my-iframe" src="https://dai.google.com/ssai/event/oZNVxALASVyYS4HMtTpRCw/master.m3u8" width="100%" height="400px" frameborder="0" allowfullscreen style="display: none;"></iframe>
         <div class="quality-controls">
             <label for="quality-options">Select Quality:</label>
             <select id="quality-options">
@@ -160,65 +180,22 @@
         const loginForm = document.getElementById('login-form');
         const passwordInput = document.getElementById('password');
         const submitBtn = document.getElementById('submit-btn');
-        const videoContainer = document.querySelector('.video-container');
         const videoPlayer = document.getElementById('my-video');
-        const qualityControls = document.querySelector('.quality-controls');
-        const qualityOptions = document.getElementById('quality-options');
-        const videoSrc = "https://kbsworld-ott.akamaized.net/hls/live/2002341/kbsworld/01.m3u8";
-
+        const iframePlayer = document.getElementById('my-iframe');
+        
         submitBtn.addEventListener('click', () => {
             if (passwordInput.value === PASSWORD) {
                 loginForm.style.display = 'none';
-                videoPlayer.style.display = 'block';
+                videoPlayer.style.display = 'none';
+                iframePlayer.style.display = 'block';
                 qualityControls.style.display = 'block';
-                
-                if (Hls.isSupported()) {
-                    var hls = new Hls();
-                    hls.loadSource(videoSrc);
-                    hls.attachMedia(videoPlayer);
-                    hls.on(Hls.Events.MANIFEST_PARSED, function() {
-                        videoPlayer.play();
-                        populateQualityOptions(hls);
-                    });
 
-                    hls.on(Hls.Events.LEVEL_SWITCHED, function(event, data) {
-                        const activeQuality = hls.levels[data.level];
-                        qualityOptions.value = activeQuality.height;
-                    });
-
-                    qualityOptions.addEventListener('change', function() {
-                        const selectedHeight = parseInt(this.value);
-                        const selectedLevel = hls.levels.findIndex(level => level.height === selectedHeight);
-                        hls.currentLevel = selectedLevel;
-                    });
-
-                } else if (videoPlayer.canPlayType('application/vnd.apple.mpegurl')) {
-                    videoPlayer.src = videoSrc;
-                    videoPlayer.addEventListener('loadedmetadata', function() {
-                        videoPlayer.play();
-                    });
-                }
+                // Optionally, load the iframe content after password validation
+                iframePlayer.src = "https://cdn-1.bdiptv24.line.pm/live/SP/index.m3u8";
             } else {
                 alert('Incorrect password. Please try again.');
             }
         });
-
-        function populateQualityOptions(hls) {
-            while (qualityOptions.firstChild) {
-                qualityOptions.removeChild(qualityOptions.firstChild);
-            }
-
-            hls.levels.forEach((level, index) => {
-                const option = document.createElement('option');
-                option.value = level.height;
-                option.textContent = `${level.height}p`;
-                qualityOptions.appendChild(option);
-            });
-
-            // Select the initial quality level
-            const activeQuality = hls.levels[hls.currentLevel];
-            qualityOptions.value = activeQuality.height;
-        }
 
         function openSupport() {
             window.open("https://t.me/talhasmovie_request_bot", "_blank");
