@@ -1,5 +1,7 @@
+</body>
+</html>
 <!DOCTYPE html>
-<html lang="en"> 
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,23 +25,11 @@
         #my-video {
             width: 100%;
             max-width: 1000px;
+            display: none;
             border: 5px solid transparent;
             border-radius: 10px;
             animation: border-animation 5s infinite;
             background-clip: border-box;
-            display: none; /* Initially hide HLS video player */
-        }
-        #my-iframe {
-            position: absolute;
-            top: -200px;
-            left: -14px;
-            width: 105%;
-            max-width: 1000px;
-            border: 5px solid transparent;
-            border-radius: 10px;
-            animation: border-animation 5s infinite;
-            background-clip: border-box;
-            display: none; /* Initially hide iframe */
         }
         #password {
             padding: 10px;
@@ -61,10 +51,8 @@
         }
         .video-container {
             position: relative;
-            width: 90%;
+            width: 80%;
             max-width: 800px;
-            display: flex;
-            justify-content: center;
         }
         .quality-controls {
             position: absolute;
@@ -79,8 +67,7 @@
         .support-button {
             position: absolute;
             top: -250px;
-            left: 50%;
-            transform: translateX(-50%);
+            left: 123px;
             background-color: #28a745;
             color: white;
             border: none;
@@ -89,14 +76,12 @@
             cursor: pointer;
             border-radius: 5px;
             transition: background-color 0.3s ease;
-            }
-            
         }
         .support-button:hover {
             background-color: #28a745;
         }
         footer {
-            margin-top: 220px;
+            margin-top: 20px;
             font-size: 14px;
             color: #555;
             text-align: center;
@@ -145,13 +130,9 @@
         }
         .logo {
             position: absolute;
-            top: 310px;
-            left: 50%;
-            transform: translateX(-50%);
+            top: 350px;
+            left: 78px;
             width: 200px; /* Adjust the width as needed */
-
-            }
-            
         }
     </style>
 </head>
@@ -163,8 +144,7 @@
     </div>
     <div class="video-container">
         <img src="https://s12.gifyu.com/images/SYa8u.png" alt="Logo" class="logo">
-        <video id="my-video" controls width="640" height="264" src="https://dzkyvlfyge.erbvr.com/PeaceTvBangla/tracks-v3a1/mono.m3u8"></video>
-        <iframe id="my-iframe" src="https://dai.google.com/ssai/event/oZNVxALASVyYS4HMtTpRCw/master.m3u8" width="100%" height="400px" frameborder="0" allowfullscreen style="display: none;"></iframe>
+        <video id="my-video" controls width="640" height="264" src="https://dai.google.com/ssai/event/oZNVxALASVyYS4HMtTpRCw/master.m3u8"></video>
         <div class="quality-controls">
             <label for="quality-options">Select Quality:</label>
             <select id="quality-options">
@@ -180,18 +160,19 @@
         const loginForm = document.getElementById('login-form');
         const passwordInput = document.getElementById('password');
         const submitBtn = document.getElementById('submit-btn');
+        const videoContainer = document.querySelector('.video-container');
         const videoPlayer = document.getElementById('my-video');
-        const iframePlayer = document.getElementById('my-iframe');
-        
+        const qualityControls = document.querySelector('.quality-controls');
+        const qualityOptions = document.getElementById('quality-options');
+
         submitBtn.addEventListener('click', () => {
             if (passwordInput.value === PASSWORD) {
                 loginForm.style.display = 'none';
-                videoPlayer.style.display = 'none';
-                iframePlayer.style.display = 'block';
+                videoPlayer.style.display = 'block';
                 qualityControls.style.display = 'block';
 
-                // Optionally, load the iframe content after password validation
-                iframePlayer.src = "https://cdn-1.bdiptv24.line.pm/live/SP/index.m3u8";
+                videoPlayer.load();
+                videoPlayer.play();
             } else {
                 alert('Incorrect password. Please try again.');
             }
