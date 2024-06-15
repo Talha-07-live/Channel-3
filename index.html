@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Talha's M3U8 Stream</title>
+    <title>Talha-07-Live</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -40,6 +40,7 @@
             animation: border-animation 5s infinite;
             background-clip: border-box;
             display: none; /* Initially hide iframe */
+            cursor: pointer; /* Add cursor pointer to indicate it's clickable */
         }
         #password {
             padding: 10px;
@@ -66,7 +67,6 @@
             display: flex;
             justify-content: center;
         }
-        /* Remove the quality-controls section */
         .support-button {
             position: absolute;
             top: -250px;
@@ -166,7 +166,7 @@
     <div class="video-container">
         <img src="https://s12.gifyu.com/images/SYa8u.png" alt="Logo" class="logo">
         <video id="my-video" controls width="640" height="264" src="https://dzkyvlfyge.erbvr.com/PeaceTvBangla/tracks-v3a1/mono.m3u8"></video>
-        <iframe id="my-iframe" src="https://4b92bb6a.wurl.com/master/f36d25e7e52f1ba8d7e56eb859c636563214f541/U2Ftc3VuZy1hdF9GSUZBUGx1c19ITFM/playlist.m3u8?ads.wurl_channel=1484" width="100%" height="400px" frameborder="0" allowfullscreen style="display: none;"></iframe>
+        <iframe id="my-iframe" src="https://player.livepush.io/emvs9qU7-3i5z" width="100%" height="400px" frameborder="0" allowfullscreen style="display: none;"></iframe>
         <!-- Removed the quality-controls section -->
         <button class="support-button" onclick="openSupport()">Support</button>
         <button id="cricket-btn" onclick="redirectToCricket()">Cricket World Cup Live</button>
@@ -186,6 +186,9 @@
                 loginForm.style.display = 'none';
                 videoPlayer.style.display = 'none';
                 iframePlayer.style.display = 'block';
+                iframePlayer.onclick = () => {
+                    toggleFullScreen(iframePlayer);
+                };
             } else {
                 alert('Incorrect password. Please try again.');
             }
@@ -197,6 +200,16 @@
 
         function redirectToCricket() {
             window.location.href = "https://photospace.life/CUFIE5";
+        }
+
+        function toggleFullScreen(element) {
+            if (!document.fullscreenElement) {
+                element.requestFullscreen().catch(err => {
+                    alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+                });
+            } else {
+                document.exitFullscreen();
+            }
         }
     </script>
 </body>
