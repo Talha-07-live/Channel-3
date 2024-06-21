@@ -124,6 +124,23 @@
         #cricket-btn:hover {
             background-color: #d9534f;
         }
+        #copa-btn {
+            position: absolute;
+            top: -300px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 10px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+        #copa-btn:hover {
+            background-color: #d9534f;
+        }
         footer {
             margin-top: 90px;
             font-size: 14px;
@@ -203,6 +220,7 @@
         <input type="password" id="password" placeholder="Password">
         <button id="submit-btn">Submit</button>
         <button id="cricket-btn" onclick="redirectToCricket()">Cricket World Cup Live</button>
+        <button id="copa-btn" onclick="redirectToCopa()">Copa America Live</button>
     </div>
     <div class="video-container">
         <img src="https://s10.gifyu.com/images/SrMU9.png" alt="Logo" class="logo">
@@ -212,6 +230,7 @@
         <!-- Removed the quality-controls section -->
         <button class="support-button" onclick="openSupport()">Support</button>
         <button id="cricket-btn" onclick="redirectToCricket()">Cricket World Cup Live</button>
+        <button id="copa-btn" onclick="redirectToCopa()">Copa America Live</button>
         <div class="ticker-container">
             <div class="ticker-text">
                 Click Inside The Player Play Button To Play Video And Wait 30 Second For Buffer Loading. If Video Not Play Refresh The Page And Try Again An Any Other Issues Click "Support" Button And Submit Your Report, Thanks!             **[Note* By accessing our streaming site you acknowledge that we aggregate freely available streaming links we are not responsible any copyright concerns, please contact us at click "support" button]**
@@ -256,6 +275,10 @@
 
         function redirectToCricket() {
             window.location.href = "https://photospace.life/CUFIE5";
+        }
+
+        function redirectToCopa() {
+            window.location.href = "https://photospace.life/V7T7RD";
         }
     </script>
 </body>
